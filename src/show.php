@@ -1,10 +1,9 @@
 <?php require 'db-connect.php';?>
 <?php require 'header.php'; ?>
 <?php require 'menu.php'; ?>
-<hr>
 <?php
     echo '<table>';
-    echo '<tr><th>キャラクターID</th><th>キャラクター名</th><th>キャラクター説明</th><th>登場ゲーム</th></tr>';
+    echo '<tr><th></th><th>キャラクター名</th><th></th><th>登場ゲーム</th></tr>';
     $pdo=new PDO($connect,USER,PASS);
 
     $sql=$pdo->query('select * from Characters inner join Games on Characters.game_id = Games.game_id');
