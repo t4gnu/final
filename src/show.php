@@ -11,7 +11,7 @@
     foreach ($sql as $row){
         $id=$row['character_id'];
         echo '<tr>';
-        echo '<td>',$id,'</td>';
+        echo '<td>No.',$id,'</td>';
         echo '<td>',$row['character_name'],'</td>';
         echo '<td>',$row['character_exp'],'</td>';
         echo '<td>',$row['game_name'],'</td>';
