@@ -11,8 +11,8 @@
     echo '<tr>';
     echo '<td><input type="text" name="id"></td>';
     echo '<td><input type="text" name="name"></td>';
-    echo '<td width="70%"><input type="text" name="exp"></td>';
-    echo '<td><textarea name="game"></textarea></td>';
+    echo '<td width="70%"><textarea name="game"></textarea></td>';
+    echo '<td><input type="text" name="game"></td>';
     echo '<td width="5%"><input type="submit" value="登録"></td>';
     echo '</tr>';
     echo '</table>';
