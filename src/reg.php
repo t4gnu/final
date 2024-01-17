@@ -7,9 +7,8 @@
     $pdo=new PDO($connect,USER,PASS);
     echo '<form action="reg.php" method="post">';
     echo '<table>';
-    echo '<tr><th>ID</th><th>キャラ名</th><th>キャラ説明</th><th>登場ゲーム</th><th></th></tr>';
+    echo '<tr><th>キャラ名</th><th>キャラ説明</th><th>登場ゲーム</th><th></th></tr>';
     echo '<tr>';
-    echo '<td><input type="text" name="id"></td>';
     echo '<td><input type="text" name="name"></td>';
     echo '<td width="70%"><textarea name="exp"></textarea></td>';
     echo '<td><input type="text" name="game"></td>';
@@ -30,7 +29,7 @@
         }
 
         if( $flag ){
-            $sql=$pdo->prepare('insert into Games (character_name, registerday) values(?,CRENT_DATE())');
+            $sql=$pdo->prepare('insert into Games (game_name, registerday) values(?,CURRENT_DATE())');
             $sql->execute([$_POST['game']]);
         }
 
@@ -45,7 +44,7 @@
                 break;
             }
 
-            $sql2=$pdo->prepare('insert into Characters (character_name, character_exp, game_id, registerday) values(?,?,?,CRENT_DATE())');
+            $sql2=$pdo->prepare('insert into Characters (character_name, character_exp, game_id, registerday) values(?,?,?,CURRENT_DATE())');
             $sql2->execute([$_POST['name'],$_POST['exp'],$lastId,CRENT_DATE()]);
             $sql2->execute([$_POST['name'],$_POST['exp'],row['game_id'],CRENT_DATE()]);
             echo '登録しました';
