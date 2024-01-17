@@ -18,21 +18,42 @@
     echo '</table>';
     echo '</form>';
 
+    $flag = false;
 
     if( isset($_POST['name']) ){
-    $sql=$pdo->query('select * from Characters inner join Games on Characters.game_id = Games.game_id');
-    foreach($sql as $row){
-        if($row['character_name'] == $_POST['name']){
-            echo 'すでに登録されています。';
-            echo '<hr>';
-            break;
+
+        $sql=$pdo->query('select * from Characters inner join Games on Characters.game_id = Games.game_id');
+        foreach($sql as $row){
+            if( !($row['game_name'] == $_POST['game']) ){
+                $flag = true;
+            }
         }
-        $sql=$pdo->prepare('insert into Characters values(?,?)');
-        $sql->execute([$_,$_GET['id']]);
-        echo '登録しました';
-        echo '<hr>';
-        require 'reg.php';
-    }
+
+        if( $flag ){
+            $sql=$pdo->prepare('insert into Games (character_name, registerday) values(?,CRENT_DATE())');
+            $sql->execute([$_POST['game']]);
+        }
+
+        $lastId=$pdo->lastInsertId();
+
+        $sql=$pdo->query('select * from Characters inner join Games on Characters.game_id = Games.game_id');
+        foreach($sql as $row){
+
+            if($row['character_name'] == $_POST['name']){
+                echo 'すでに登録されています。';
+                echo '<hr>';
+                break;
+            }
+
+            $sql2=$pdo->prepare('insert into Characters (character_name, character_exp, game_id, registerday) values(?,?,?,CRENT_DATE())');
+            $sql2->execute([$_POST['name'],$_POST['exp'],$lastId,CRENT_DATE()]);
+            $sql2->execute([$_POST['name'],$_POST['exp'],row['game_id'],CRENT_DATE()]);
+            echo '登録しました';
+            echo '<hr>';
+            require 'reg.php';
+            break;
+
+        }
     }
     
 
