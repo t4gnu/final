@@ -27,7 +27,7 @@
         echo '<td>',$row['character_name'],'</td>';
         echo '<td width="70%">',$row['character_exp'],'</td>';
         echo '<td>',$row['game_name'],'</td>';
-        echo '<td width="5%"><a href="delete.php?id="',$id,'">削除</a></td>';
+        echo '<td width="5%"><a href="delete.php?id="',$id,'"><button>削除</button></a></td>';
         echo '</tr>';
 
     }
