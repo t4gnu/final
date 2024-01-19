@@ -1,4 +1,3 @@
-<?php session_start(); ?>
 <?php require 'db-connect.php';?>
 <?php require 'header.php'; ?>
 <?php require 'menu.php'; ?>
@@ -21,11 +20,10 @@
 
     if( isset($_POST['name']) ){
 
-        $sql=$pdo->query('select * from Characters inner join Games on Characters.game_id = Games.game_id');
-        foreach($sql as $row){
-            if( !($row['game_name'] == $_POST['game']) ){
-                $flag = true;
-            }
+        $sql=$pdo->query('select * from Games where game_name = ?');
+        $sql->execute([$_POST['name']]);
+        if( empty($sql->fetchAll()) ){
+            $flag = true;
         }
 
         if( $flag ){
@@ -40,17 +38,22 @@
 
             if($row['character_name'] == $_POST['name']){
                 echo 'すでに登録されています。';
-                echo '<hr>';
-                break;
+                return;
             }
 
             $sql2=$pdo->prepare('insert into Characters (character_name, character_exp, game_id, registerday) values(?,?,?,CURRENT_DATE())');
-            $sql2->execute([$_POST['name'],$_POST['exp'],$lastId,CRENT_DATE()]);
-            $sql2->execute([$_POST['name'],$_POST['exp'],row['game_id'],CRENT_DATE()]);
+            if( $flag ){
+                $sql2->execute([$_POST['name'],$_POST['exp'],$lastId]);
+            }else{
+                $sql3=$pdo->prepare('select * from Games where game_name = ?');
+                $sql3->execute([$_POST['game']]);
+                foreach($sql3 as $row3){
+                    $sql2->execute([$_POST['name'],$_POST['exp'],$row3['game_id']]);
+                }
+            }
+            
             echo '登録しました';
-            echo '<hr>';
-            require 'reg.php';
-            break;
+            return;
 
         }
     }
